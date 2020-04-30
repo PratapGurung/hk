@@ -9,12 +9,12 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".SignUp"></activity>
-        <activity android:name=".loginActivity"></activity>
+
         <activity
-                android:name=".MainActivity"
+                android:name=".MainActivity_Agent"
                 android:label="@string/app_name"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".loginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,12 +22,23 @@
             </intent-filter>
         </activity>
         <activity
+                android:name=".SignUp"
+                android:parentActivityName=".loginActivity">
+            <meta-data
+                    android:name="android.support.loginActivity"
+                    android:value="com.example.pratapgurung.testnavigation.loginActivity" />
+        </activity>
+        <activity
+                android:name=".MainActivity_Customer"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity
                 android:name=".profile"
                 android:label="Profile"
-                android:parentActivityName=".MainActivity">
+                android:parentActivityName=".MainActivity_Customer">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.example.pratapgurung.testnavigation.MainActivity" />
+                    android:value="com.example.pratapgurung.testnavigation.MainActivity_Customer" />
         </activity>
         <activity
                 android:name=".firstName"
@@ -72,7 +83,7 @@
         <activity
                 android:name=".PastActivity"
                 android:label="Past Activity"
-                android:parentActivityName=".MainActivity">
+                android:parentActivityName=".MainActivity_Customer">
             <meta-data
                     android:name="android.support.MainActivity"
                     android:value="com.example.pratapgurung.testnavigation.MainActivity" />
@@ -80,15 +91,15 @@
         <activity
                 android:name=".CheckAgents"
                 android:label="Check Agents"
-                android:parentActivityName=".MainActivity">
+                android:parentActivityName=".MainActivity_Customer">
             <meta-data
                     android:name="android.support.MainActivity"
                     android:value="com.example.pratapgurung.testnavigation.MainActivity" />
         </activity>
         <activity
-                android:name=".RequestStatus"
+                android:name=".CheckRequestStatus"
                 android:label="Request Status"
-                android:parentActivityName=".MainActivity">
+                android:parentActivityName=".MainActivity_Customer">
             <meta-data
                     android:name="android.support.MainActivity"
                     android:value="com.example.pratapgurung.testnavigation.MainActivity" />
@@ -96,7 +107,7 @@
         <activity
                 android:name=".Help"
                 android:label="Help"
-                android:parentActivityName=".MainActivity">
+                android:parentActivityName=".MainActivity_Customer">
             <meta-data
                     android:name="android.support.MainActivity"
                     android:value="com.example.pratapgurung.testnavigation.MainActivity" />
@@ -104,19 +115,30 @@
         <activity
                 android:name=".sucessActivity"
                 android:label="Sucess"
-                android:parentActivityName=".MainActivity">
+                android:parentActivityName=".MainActivity_Customer">
             <meta-data
                     android:name="android.support.MainActivity"
                     android:value="com.example.pratapgurung.testnavigation.MainActivity" />
         </activity>
         <activity
-                android:name=".detail_service_request"
+                android:name=".detail_service_request_agent"
                 android:label="Service Request"
-                android:parentActivityName=".RequestStatus">
+                android:parentActivityName=".CheckRequestStatus">
+            <meta-data
+                    android:name="android.support.RequestStatus"
+                    android:value="com.example.pratapgurung.testnavigation.RequestStatus" />
+        </activity>
+
+        <activity
+                android:name=".detail_service_request_customer"
+                android:label="Past Request"
+                android:parentActivityName=".CheckRequestStatus">
             <meta-data
                     android:name="android.support.RequestStatus"
                     android:value="com.example.pratapgurung.testnavigation.RequestStatus" />
         </activity>
     </application>
+
+
 
 </manifest>

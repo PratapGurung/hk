@@ -22,16 +22,15 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.content_main.*
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, DatePickerDialog.OnDateSetListener{
+class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, DatePickerDialog.OnDateSetListener{
     // Write a message to the database
     val database = FirebaseDatabase.getInstance()
-    var datepicker: Button? = null
+    var datepicker: Button? = null //variable for calendar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -50,6 +49,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
 
         spinnerSetup()
+
+        //get the sharedpreference
+        val settings = getSharedPreferences("UserInfo", 0)
+        //get the navigationView
+        val navigationView : NavigationView  = findViewById(R.id.nav_view)
+        val headerView : View = navigationView.getHeaderView(0)
+        val navUsername : TextView = headerView.findViewById(R.id.username) //get the userName view
+        navUsername.text = settings.getString("Username", "").toString() //set the user to current logged in username
 
     }
 
@@ -80,23 +87,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_message -> {
-                // Handle the camera action
-            }
+
             R.id.nav_agents -> {
                 val myIntent = Intent(this, CheckAgents::class.java)
                 startActivity(myIntent);
             }
-            R.id.nav_requests -> {
-                val myIntent = Intent(this, RequestStatus::class.java)
+            R.id.nav_pending_requests -> {
+                val myIntent = Intent(this, CheckRequestStatus::class.java)
                 startActivity(myIntent);
             }
-            R.id.nav_past_activity -> {
+            R.id.nav_accepted_request -> {
                 val myIntent = Intent(this, PastActivity::class.java)
                 startActivity(myIntent);
             }
-            R.id.nav_help -> {
-                val myIntent = Intent(this, Help::class.java)
+            R.id.nav_past_request -> {
+                val myIntent = Intent(this, PastActivity::class.java)
                 startActivity(myIntent);
             }
 
@@ -128,7 +133,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Set Adapter to Spinner
         mySpinner.setAdapter(myAdapter);
 
-        var spinner2 = findViewById<Spinner>(R.id.spinnerStates);
+        var spinner2 = findViewById<Spinner>(R.id.states);
         // Create an ArrayAdapter using a simple spinner layout and languages array
         val statesAdapter = ArrayAdapter(
             this,
@@ -155,7 +160,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val city = findViewById<EditText>(R.id.mainCity)
         city.setText("")
         //states
-        val spinnerStates = findViewById<Spinner>(R.id.spinnerStates)
+        val spinnerStates = findViewById<Spinner>(R.id.states)
         spinnerStates.setSelection(0)
         //Zipcode
         val zipCode = findViewById<EditText>(R.id.mainZipcode)
@@ -164,7 +169,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val estHour = findViewById<EditText>(R.id.estHour)
         estHour.setText("");
         //estimated hours
-        val desc = findViewById<EditText>(R.id.description)
+        val desc = findViewById<EditText>(R.id.descriptions)
         desc.setText("");
 
         val rate = findViewById<EditText>(R.id.rate)
@@ -178,28 +183,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun requestSubmit(view: View) {
         //widgets
         val serviceType = findViewById<Spinner>(R.id.mainSpinner1)//spinner
-        val addLine = findViewById<EditText>(R.id.mainAddLine)
-        val city = findViewById<EditText>(R.id.mainCity)
-        val spinnerStates = findViewById<Spinner>(R.id.spinnerStates)
-        val zipCode = findViewById<EditText>(R.id.mainZipcode)
-        val estHour = findViewById<EditText>(R.id.estHour)
-        val desc = findViewById<EditText>(R.id.description)
-        val deadlinedate = findViewById<Button>(R.id.datepicker)
-        val rate = findViewById<EditText>(R.id.rate)
+        val spinnerStates = findViewById<Spinner>(R.id.states)
+
 
         //widget text
-        val stType = serviceType.selectedItem.toString()
-        val addLineText = addLine.text.toString()
-        val cityTxt = city.text.toString()
-        val spStateTxt = spinnerStates.selectedItem.toString()
-        val zipTxt = zipCode.text.toString()
-        val estHrtxt = estHour.text.toString()
-        val descTxt = desc.text.toString()
-        val rateTxt = rate.text.toString()
-        val dateTxt = deadlinedate.text.toString()
+        val stType = findViewById<Spinner>(R.id.mainSpinner1).selectedItem.toString()
+        val addLineText = findViewById<EditText>(R.id.mainAddLine).text.toString()
+        val cityTxt = findViewById<EditText>(R.id.mainCity).text.toString()
+        val spStateTxt = findViewById<Spinner>(R.id.states).selectedItem.toString()
+        val zipTxt = findViewById<EditText>(R.id.mainZipcode).text.toString()
+        val estHrtxt = findViewById<EditText>(R.id.estHour).text.toString()
+        val descTxt = findViewById<EditText>(R.id.descriptions).text.toString()
+        val rateTxt = findViewById<EditText>(R.id.rate).text.toString()
+        val dateTxt = findViewById<EditText>(R.id.descriptions).text.toString()
 
 
+        //get the sharedpreference
+        val settings = getSharedPreferences("UserInfo", 0)
+        //get the current logged in user info
+        val userId = settings.getString("Username", "").toString()
 
+        //get the database reference
         val myRef = database.getReference().child("orders")
 
         //validate data before submitting
@@ -223,12 +227,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val orderId = myRef.push().getKey().toString()
             val date = LocalDate.now().toString()
             val newOrder = Order(
-                orderId, "", " ", addLineText, cityTxt, spStateTxt,
+                orderId, userId, stType, addLineText, cityTxt, spStateTxt,
                 zipTxt, estHrtxt, descTxt, date, dateTxt, "", rateTxt
             )
 
             myRef.child(orderId).setValue(newOrder)
-            val myIntent = Intent(this, MainActivity::class.java)
+            val myIntent = Intent(this, MainActivity_Customer::class.java)
             startActivity(myIntent);
             displayToast("Service Request Sucessfully Submitted!!!")
         }

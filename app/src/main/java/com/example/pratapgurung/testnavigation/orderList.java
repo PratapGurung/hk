@@ -32,13 +32,13 @@ public class orderList extends ArrayAdapter<Order> {
         TextView header = (TextView) listViewItem.findViewById(R.id.header);
         TextView customer = (TextView) listViewItem.findViewById(R.id.customerName);
         TextView requestDate = (TextView) listViewItem.findViewById(R.id.serviceRequestDate);
-        TextView description = (TextView) listViewItem.findViewById(R.id.description);
+        TextView description = (TextView) listViewItem.findViewById(R.id.descriptions);
 
         Order order = list.get(position);
 
         header.setText(order.getAddress());
-        customer.setText(order.getCustId());
-        requestDate.setText(order.getRequestDate());
+        customer.setText(order.getRequestedby());
+        requestDate.setText(order.getRequestedDate());
         description.setText(order.getDescription());
 
         return listViewItem;

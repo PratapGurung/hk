@@ -15,7 +15,7 @@ import com.google.firebase.database.ValueEventListener
 class email : AppCompatActivity() {
 
     val database = FirebaseDatabase.getInstance()
-    private var  myRef = database.getReference().child("agents").child("1")
+    private var  myRef = database.getReference().child("user").child("1")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

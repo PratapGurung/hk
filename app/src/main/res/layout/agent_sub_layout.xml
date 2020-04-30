@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <EditText
+            android:id="@+id/address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:hint="Address"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/city"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+            android:id="@+id/city"
+            android:layout_width="189dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:hint="City"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/states"
+            app:layout_constraintEnd_toStartOf="@+id/agentzipcode"
+            app:layout_constraintHorizontal_bias="0.076"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+            android:id="@+id/agentzipcode"
+            android:layout_width="192dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="4dp"
+            android:ems="10"
+            android:hint="Zipcode"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@+id/city"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/city"
+            app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+            android:id="@+id/states"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="States"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.01"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="119dp" />
+
+</android.support.constraint.ConstraintLayout>

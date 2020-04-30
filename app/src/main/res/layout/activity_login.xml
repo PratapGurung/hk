@@ -17,15 +17,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
-            android:layout_marginBottom="28dp"
-            android:hint="@string/prompt_password"
+            android:hint="@string/password"
             android:imeActionLabel="@string/action_sign_in_short"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:selectAllOnFocus="true"
-            app:layout_constraintBottom_toTopOf="@+id/Sign in"
+            app:layout_constraintBottom_toTopOf="@+id/signIn"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline6" />
 
     <EditText
@@ -34,7 +33,7 @@
             android:layout_height="wrap_content"
 
             android:layout_marginBottom="30dp"
-            android:hint="@string/prompt_email"
+            android:hint="UserName"
             android:inputType="textEmailAddress"
             android:selectAllOnFocus="true"
             app:layout_constraintBottom_toTopOf="@+id/password"
@@ -90,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="172dp"
             android:onClick="signUp"
-            android:text="Sign up."
+            android:text="@string/sign_up"
             android:textColor="#8BC34A"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -128,7 +127,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-            android:id="@+id/Sign in"
+            android:id="@+id/signIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"

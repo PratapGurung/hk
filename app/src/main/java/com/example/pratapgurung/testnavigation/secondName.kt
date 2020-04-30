@@ -15,7 +15,7 @@ import com.google.firebase.database.ValueEventListener
 class secondName : AppCompatActivity() {
 
     val database = FirebaseDatabase.getInstance()
-    var  myRef = database.getReference().child("agents").child("1")
+    var  myRef = database.getReference().child("user").child("1")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second_name)

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".MainActivity"
+        tools:context=".MainActivity_Customer"
         tools:showIn="@layout/app_bar_main">
 
     <Spinner
@@ -43,7 +44,7 @@
             android:hint="Adress line"
             android:inputType="textPersonName"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/spinnerStates"
+            app:layout_constraintBottom_toTopOf="@+id/states"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline3" />
@@ -61,7 +62,7 @@
             app:layout_constraintStart_toStartOf="@+id/guideline3" />
 
     <Spinner
-            android:id="@+id/spinnerStates"
+            android:id="@+id/states"
             style="@android:style/Widget.Holo.Light.Spinner"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -119,7 +120,7 @@
             app:layout_constraintStart_toStartOf="@+id/guideline3" />
 
     <EditText
-            android:id="@+id/description"
+            android:id="@+id/descriptions"
             android:layout_width="0dp"
             android:layout_height="107dp"
             android:layout_marginBottom="100dp"
@@ -192,7 +193,7 @@
             android:hint="Choose Date"
             android:onClick="getDatePicker"
             android:shadowColor="#FFFFFF"
-            app:layout_constraintBottom_toTopOf="@+id/description"
+            app:layout_constraintBottom_toTopOf="@+id/descriptions"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintHorizontal_bias="0.143"
             app:layout_constraintStart_toEndOf="@+id/textView8" />

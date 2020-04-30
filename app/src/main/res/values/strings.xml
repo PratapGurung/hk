@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">testNavigation</string>
+    <string name="app_name">H.K.</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -7,9 +7,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="action_sign_in" />
-    <string name="prompt_password" />
     <string name="action_sign_in_short" />
-    <string name="prompt_email" />
     <string name="phone">Phone Number</string>
     <string name="password">Password</string>
     <string-array name="serviceNames">
@@ -17,7 +15,7 @@
         <item>Laundry</item>
         <item>Cleaning</item>
     </string-array>
-
+    <string name="sign_up"><u>Sign Up.</u></string>
     <string-array name="states">
         <item>Select States</item>
         <item>Alabama</item>
@@ -77,4 +75,7 @@
         <item>Wisconsin</item>
         <item>Wyoming</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

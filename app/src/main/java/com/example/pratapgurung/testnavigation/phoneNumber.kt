@@ -11,11 +11,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-
+//MainActivity_Agent
 class phoneNumber : AppCompatActivity() {
 
     val database = FirebaseDatabase.getInstance()
-    var  myRef = database.getReference().child("agents").child("1")
+    var  myRef = database.getReference().child("user").child("1")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_phone_number)
@@ -40,7 +40,7 @@ class phoneNumber : AppCompatActivity() {
         val text = findViewById<EditText>(R.id.phoneNumber).text.toString()
         //initialize db
         myRef.child("phoneNumber").setValue(text)
-        val myIntent = Intent(this, profile::class.java)
+        val myIntent = Intent(this@phoneNumber, profile::class.java)
         startActivity(myIntent);
     }
 }

@@ -9,7 +9,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class detail_service_request : AppCompatActivity() {
+class detail_service_request_agent : AppCompatActivity() {
     val database = FirebaseDatabase.getInstance()
 
     private var custId: String? = null
@@ -39,16 +39,16 @@ class detail_service_request : AppCompatActivity() {
             override fun onDataChange(data: DataSnapshot) {
                 //To change body of created functions use File | Settings | File Templates.
                 address = data.child("address").value.toString()
-                custId = data.child("custId").value.toString()
+                custId = data.child("requestedby").value.toString()
                 fee = data.child("rate").value.toString()
                 desc = data.child("description").value.toString()
                 city = data.child("city").value.toString()
                 state = data.child("state").value.toString()
                 zipcode = data.child("zipCode").value.toString()
-                rDate = data.child("requestDate").value.toString()
-                estDeadline = data.child("completDate").value.toString()
+                rDate = data.child("requestedDate").value.toString()
+                estDeadline = data.child("completeDate").value.toString()
                 estHr = data.child("serviceHour").value.toString()
-                sType = data.child("serviceId").value.toString()
+                sType = data.child("servicetype").value.toString()
 
                 //widgets
                 val addLineView = findViewById<TextView>(R.id.address)
@@ -60,8 +60,8 @@ class detail_service_request : AppCompatActivity() {
                 val estDeadlineView = findViewById<TextView>(R.id.estDeadline)
                 val estHourView = findViewById<TextView>(R.id.estHrs)
                 val sFeeView = findViewById<TextView>(R.id.serviceFee)
-                val descView = findViewById<TextView>(R.id.description)
-                val serviceTypeView = findViewById<TextView>(R.id.serviceType)
+                val descView = findViewById<TextView>(R.id.descriptions)
+                val serviceTypeView = findViewById<TextView>(R.id.descriptions)
 
                 addLineView.text = address
                 cityView.text = city
