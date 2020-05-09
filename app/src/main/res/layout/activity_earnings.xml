@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".earnings">
+
+
+    <TextView
+            android:id="@+id/weeklyEarnings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="#009688"
+            android:backgroundTint="#009688"
+            android:onClick="getWeeklyEarnings"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Weekly Earnings"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/monthlyEarnings"
+            app:layout_constraintEnd_toStartOf="@+id/guideline12"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline10" />
+
+    <TextView
+            android:id="@+id/monthlyEarnings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="#009688"
+            android:backgroundTint="#009688"
+            android:onClick="getMonthlyEarnings"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Monthly Earnings"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/yearlyEarnings"
+            app:layout_constraintEnd_toStartOf="@+id/guideline12"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline10" />
+
+    <TextView
+            android:id="@+id/yearlyEarnings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="#009688"
+            android:backgroundTint="#009688"
+            android:onClick="getYearlyEarnings"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Yearly Earnings"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/totalEarnings"
+            app:layout_constraintEnd_toStartOf="@+id/guideline12"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline10" />
+
+    <TextView
+            android:id="@+id/totalEarnings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="356dp"
+            android:background="#009688"
+            android:backgroundTint="#009688"
+            android:onClick="getTotalEarnings"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Total Earnings"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline12"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline10" />
+
+    <android.support.constraint.Guideline
+            android:id="@+id/guideline10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp" />
+
+    <android.support.constraint.Guideline
+            android:id="@+id/guideline12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="16dp" />
+
+    <TextView
+            android:id="@+id/dailyEarnings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="#009688"
+            android:backgroundTint="#009688"
+            android:onClick="getDailyEarnings"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Daily Earnings"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/weeklyEarnings"
+            app:layout_constraintEnd_toStartOf="@+id/guideline12"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline10"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.933" />
+</android.support.constraint.ConstraintLayout>

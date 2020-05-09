@@ -1,13 +1,13 @@
 package com.example.pratapgurung.testnavigation
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.widget.ListView
 import com.google.firebase.database.*
 
-class PastActivity : AppCompatActivity() {
 
+class RequestStatusAgent : AppCompatActivity() {
     val database = FirebaseDatabase.getInstance()
 
     //val orderlist = listOf<Order>();
@@ -25,13 +25,11 @@ class PastActivity : AppCompatActivity() {
 
         //get the sharedpreference
         val settings = getSharedPreferences("UserInfo", 0)
-        val userId = settings.getString("userId", "").toString()
+        val userId = settings.getString("userId", "").toString() // get the userName
 
-        // Most recent posts
+        //connect to the database and get the orders accepted by this service provider
         val orders  = database.getReference().child("orders")
         val query: Query = orders.orderByChild("acceptedby").equalTo(userId)
-        // Most recent posts
-
         query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataList: DataSnapshot) {
                 //To change body of created functions use File | Settings | File Templates.
@@ -39,8 +37,7 @@ class PastActivity : AppCompatActivity() {
                 orderrlistItem.clear()
                 for (data in dataList.children) {
                     val status = data.child("status").value.toString()
-
-                    if(status.toLowerCase().equals("completed")){
+                    if(status.toLowerCase().equals("accepted")){
                         val orderId = data.child("orderId").value.toString()
                         val add = data.child("address").value.toString()
                         val custId = data.child("requestedby").value.toString()
@@ -55,6 +52,7 @@ class PastActivity : AppCompatActivity() {
 
                         val acceptedBy = data.child("acceptedby").value.toString()
                         val rate = data.child("rate").value.toString()
+
                         val order = Order(
                             orderId, custId, serviceId, add, city,
                             state, zipcode, estHr, desc,
@@ -63,16 +61,18 @@ class PastActivity : AppCompatActivity() {
                         orderrlistItem.add(order)
                     }
 
+
+
                 }
                 //val adapter = orderList(this@RequestStatus, orderrlistItem)
-                val adapter = orderList(this@PastActivity, orderrlistItem)
+                val adapter = orderList(this@RequestStatusAgent, orderrlistItem)
                 listview.setAdapter(adapter);
 
                 listview.setOnItemClickListener { parent, view, position, id ->
                     val element = adapter.getItem(position)// The item that was clicked
                     //Toast.makeText(getApplicationContext(), "Selected item at position: " + element.orderId, Toast.LENGTH_LONG).show();
                     val intent =
-                        Intent(this@PastActivity, detail_service_request_customer::class.java)
+                        Intent(this@RequestStatusAgent, detail_service_request_customer::class.java)
                     intent.putExtra("order", element.orderId)
                     startActivity(intent)
                 }
@@ -86,4 +86,5 @@ class PastActivity : AppCompatActivity() {
         });
 
     }
+
 }

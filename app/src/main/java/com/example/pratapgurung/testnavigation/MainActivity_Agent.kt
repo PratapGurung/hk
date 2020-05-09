@@ -16,10 +16,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import com.google.firebase.FirebaseApp
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import java.util.*
@@ -53,19 +50,22 @@ class MainActivity_Agent : AppCompatActivity(), NavigationView.OnNavigationItemS
         val navigationView : NavigationView  = findViewById(R.id.nav_view)
         val headerView : View = navigationView.getHeaderView(0)
         val navUsername : TextView = headerView.findViewById(R.id.username) //get the userName view
+        val ratings : RatingBar = headerView.findViewById(R.id.ratingBar) //get the ratings bar
         navUsername.text = settings.getString("Username", "").toString() //set the user to current logged in username
+        ratings.rating = settings.getString("ratings", "").toString().toFloat()
 
     }
 
     override fun onStart() {
         super.onStart();
 
-        val listview = findViewById<ListView>(R.id.requestList);
+        val listview = findViewById<ListView>(R.id.earningList);
         val orderrlistItem = ArrayList<Order>()
 
         // Most recent posts
-        val myRef = database.getReference().child("orders").orderByChild("requestDate") // makes changes here it does not work yet
-        myRef.addValueEventListener(object : ValueEventListener {
+        val orders  = database.getReference().child("orders")
+        val query: Query = orders.orderByChild("status").equalTo("pending")
+        query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataList: DataSnapshot) {
                 //To change body of created functions use File | Settings | File Templates.
 
@@ -145,18 +145,21 @@ class MainActivity_Agent : AppCompatActivity(), NavigationView.OnNavigationItemS
         // Handle navigation view item clicks here.
         when (item.itemId) {
 
-            R.id.nav_agents -> {
-                val myIntent = Intent(this, CheckAgents::class.java)
+            R.id.nav_check_request_requests -> {
+                val myIntent = Intent(this, RequestStatusAgent::class.java)
                 startActivity(myIntent);
             }
-            R.id.nav_requests -> {
-                val myIntent = Intent(this, CheckRequestStatus::class.java)
-                startActivity(myIntent);
-            }
-            R.id.nav_pending_request-> {
+
+            R.id.nav_past_request -> {
                 val myIntent = Intent(this, PastActivity::class.java)
                 startActivity(myIntent);
             }
+
+            R.id.nav_earning -> {
+                val myIntent = Intent(this, earnings::class.java)
+                startActivity(myIntent);
+            }
+
 
         }
 
@@ -170,7 +173,6 @@ class MainActivity_Agent : AppCompatActivity(), NavigationView.OnNavigationItemS
         startActivity(myIntent);
 
     }
-
 
     fun displayToast(msg: String) {
         val toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT)

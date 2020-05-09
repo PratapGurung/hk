@@ -12,5 +12,6 @@ data class Agent(
     var userName:String? = "",
     var password:String? = "",
     var userType:String? = "",
-    var rating:String? = "5"
+    var rating:String? = "5",
+    var earning:String? = ""
 )

@@ -15,5 +15,6 @@ data class Order (
     var requestedDate:String? = "",
     var completeByDate: String? = "",
     var acceptedby:String? = "",
-    var rate:String? = ""
+    var rate:String? = "",
+    var status:String? = ""
 )

@@ -10,7 +10,7 @@
         tools:showIn="@layout/app_bar_main_agent">
 
     <ListView
-            android:id="@+id/requestList"
+            android:id="@+id/earningList"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"

@@ -7,7 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 
 
-class status_accepted : Fragment() {
+/**
+ * A simple [Fragment] subclass.
+ * Use the [status_completed.newInstance] factory method to
+ * create an instance of this fragment.
+ */
+class status_completed : Fragment() {
     // TODO: Rename and change types of parameters
 
     override fun onCreateView(
@@ -15,7 +20,7 @@ class status_accepted : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_status_accepted, container, false)
+        return inflater.inflate(R.layout.fragment_status_completed, container, false)
     }
 
 

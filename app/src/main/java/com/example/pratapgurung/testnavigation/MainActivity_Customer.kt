@@ -56,7 +56,10 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
         val navigationView : NavigationView  = findViewById(R.id.nav_view)
         val headerView : View = navigationView.getHeaderView(0)
         val navUsername : TextView = headerView.findViewById(R.id.username) //get the userName view
+        val ratings : RatingBar = headerView.findViewById(R.id.ratingBar) //get the ratings bar
         navUsername.text = settings.getString("Username", "").toString() //set the user to current logged in username
+        ratings.rating = settings.getString("ratings", "").toString().toFloat()
+
 
     }
 
@@ -92,12 +95,8 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
                 val myIntent = Intent(this, CheckAgents::class.java)
                 startActivity(myIntent);
             }
-            R.id.nav_pending_requests -> {
-                val myIntent = Intent(this, CheckRequestStatus::class.java)
-                startActivity(myIntent);
-            }
-            R.id.nav_accepted_request -> {
-                val myIntent = Intent(this, PastActivity::class.java)
+            R.id.nav_check_request_requests -> {
+                val myIntent = Intent(this, RequestStatusCustomer::class.java)
                 startActivity(myIntent);
             }
             R.id.nav_past_request -> {
@@ -195,7 +194,7 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
         val estHrtxt = findViewById<EditText>(R.id.estHour).text.toString()
         val descTxt = findViewById<EditText>(R.id.descriptions).text.toString()
         val rateTxt = findViewById<EditText>(R.id.rate).text.toString()
-        val dateTxt = findViewById<EditText>(R.id.descriptions).text.toString()
+        val dateTxt = findViewById<EditText>(R.id.datepicker).text.toString()
 
 
         //get the sharedpreference
@@ -228,7 +227,7 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
             val date = LocalDate.now().toString()
             val newOrder = Order(
                 orderId, userId, stType, addLineText, cityTxt, spStateTxt,
-                zipTxt, estHrtxt, descTxt, date, dateTxt, "", rateTxt
+                zipTxt, estHrtxt, descTxt, date, "", "", rateTxt, "pending"
             )
 
             myRef.child(orderId).setValue(newOrder)

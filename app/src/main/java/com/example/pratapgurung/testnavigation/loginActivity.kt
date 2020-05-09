@@ -42,7 +42,13 @@ class loginActivity : AppCompatActivity() {
                         //save user data in sharedPreferences to save user information
                         val settings = getSharedPreferences("UserInfo", 0)
                         val editor = settings.edit()
-                        editor.putString("Username", userName) //save user name
+
+                        val ratings = dataSnapshot.child("ratings").value.toString()
+                        val firstName = dataSnapshot.child("firstName").value.toString()
+                        val lastName = dataSnapshot.child("lastName").value.toString()
+                        editor.putString("Username", firstName + " " + lastName) //save user name
+                        editor.putString("ratings", ratings)
+                        editor.putString("userId", userName)
                         editor.commit()//commit to save
 
                         loginStatus(true, userType)

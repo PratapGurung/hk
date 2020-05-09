@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatActivity
 import android.util.TypedValue
 import android.view.Gravity
@@ -33,7 +32,7 @@ class SignUp : AppCompatActivity() {
         userTypeRadioBtn.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
             val radioButton = findViewById<RadioButton>(checkedId)
             if (radioButton.text.equals("Customer")) {
-                val fragment: customerSignUp = customerSignUp()
+                val fragment: emptyView = emptyView()
                 supportFragmentManager.beginTransaction().apply {
                     replace(R.id.fragment, fragment)
                     commit()
