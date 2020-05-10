@@ -15,19 +15,23 @@ import com.google.firebase.database.ValueEventListener
 class email : AppCompatActivity() {
 
     val database = FirebaseDatabase.getInstance()
-    private var  myRef = database.getReference().child("user").child("1")
+    private var  myRef = database.getReference().child("user")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_email)
 
-        myRef.addValueEventListener(object: ValueEventListener {
+        //get the sharedpreference
+        val settings = getSharedPreferences("UserInfo", 0)
+        //get the current logged in user info
+        val userId = settings.getString("userId", "").toString()
+
+        myRef.child(userId).addValueEventListener(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 //To change body of created functions use File | Settings | File Templates.
                 val em = p0.child("email").value.toString()
                 val emailEdit  = findViewById<TextView>(R.id.emailAdd)
                 emailEdit.text = em
-
             }
             override fun onCancelled(p0: DatabaseError) {
                 TODO("not implemented")
@@ -38,9 +42,13 @@ class email : AppCompatActivity() {
     }
 
     fun retEmail(view : View){
+        //get the sharedpreference
+        val settings = getSharedPreferences("UserInfo", 0)
+        //get the current logged in user info
+        val userId = settings.getString("userId", "").toString()
         val text = findViewById<EditText>(R.id.emailAdd).text.toString()
         //initialize db
-        myRef.child("email").setValue(text)
+        myRef.child(userId).child("email").setValue(text)
         val myIntent = Intent(this, profile::class.java)
         startActivity(myIntent);
     }

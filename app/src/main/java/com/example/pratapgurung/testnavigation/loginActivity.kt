@@ -48,6 +48,7 @@ class loginActivity : AppCompatActivity() {
                         val lastName = dataSnapshot.child("lastName").value.toString()
                         editor.putString("Username", firstName + " " + lastName) //save user name
                         editor.putString("ratings", ratings)
+                        editor.putString("userType", userType)
                         editor.putString("userId", userName)
                         editor.commit()//commit to save
 

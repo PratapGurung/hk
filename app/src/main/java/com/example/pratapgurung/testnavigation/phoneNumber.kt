@@ -15,12 +15,17 @@ import com.google.firebase.database.ValueEventListener
 class phoneNumber : AppCompatActivity() {
 
     val database = FirebaseDatabase.getInstance()
-    var  myRef = database.getReference().child("user").child("1")
+    var  myRef = database.getReference().child("user")
+    //get the sharedpreference
+    val settings = getSharedPreferences("UserInfo", 0)
+    //get the current logged in user info
+    val userId = settings.getString("userId", "").toString()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_phone_number)
 
-        myRef.addValueEventListener(object: ValueEventListener {
+        myRef.child(userId).addValueEventListener(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 //To change body of created functions use File | Settings | File Templates.
                 val pNum = p0.child("phoneNumber").value.toString()
@@ -39,7 +44,7 @@ class phoneNumber : AppCompatActivity() {
     fun retPhoneNumber(view : View){
         val text = findViewById<EditText>(R.id.phoneNumber).text.toString()
         //initialize db
-        myRef.child("phoneNumber").setValue(text)
+        myRef.child(userId).child("phoneNumber").setValue(text)
         val myIntent = Intent(this@phoneNumber, profile::class.java)
         startActivity(myIntent);
     }

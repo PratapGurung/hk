@@ -26,7 +26,7 @@ class profile : AppCompatActivity() {
         //get the sharedpreference
         val settings = getSharedPreferences("UserInfo", 0)
         //get the current logged in user info
-        val userId = settings.getString("Username", "").toString()
+        val userId = settings.getString("userId", "").toString()
         val myRef = database.getReference().child("user").child(userId)
 
         //get all the information from db

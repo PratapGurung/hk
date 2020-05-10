@@ -15,13 +15,18 @@ import com.google.firebase.database.ValueEventListener
 class password : AppCompatActivity() {
 
     val database = FirebaseDatabase.getInstance()
-    var  myRef = database.getReference().child("user").child("1")
+    var  userRef = database.getReference().child("user")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_password)
 
-        myRef.addValueEventListener(object: ValueEventListener {
+        //get the sharedpreference
+        val settings = getSharedPreferences("UserInfo", 0)
+        //get the current logged in user info
+        val userId = settings.getString("userId", "").toString()
+
+        userRef.child(userId).addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 //To change body of created functions use File | Settings | File Templates.
                 val pword = p0.child("Password").value.toString()
@@ -38,9 +43,13 @@ class password : AppCompatActivity() {
     }
 
     fun retClientPassword(view : View){
+        //get the sharedpreference
+        val settings = getSharedPreferences("UserInfo", 0)
+        //get the current logged in user info
+        val userId = settings.getString("userId", "").toString()
         val text = findViewById<EditText>(R.id.password).text.toString()
         //initialize db
-        myRef.child("Password").setValue(text)
+        userRef.child(userId).child("password").setValue(text)
         val myIntent = Intent(this, profile::class.java)
         startActivity(myIntent);
     }

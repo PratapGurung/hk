@@ -2,7 +2,9 @@ package com.example.pratapgurung.testnavigation
 
 import android.R.id.message
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
@@ -91,16 +93,21 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
         // Handle navigation view item clicks here.
         when (item.itemId) {
 
-            R.id.nav_agents -> {
-                val myIntent = Intent(this, CheckAgents::class.java)
-                startActivity(myIntent);
-            }
+
             R.id.nav_check_request_requests -> {
                 val myIntent = Intent(this, RequestStatusCustomer::class.java)
                 startActivity(myIntent);
             }
             R.id.nav_past_request -> {
-                val myIntent = Intent(this, PastActivity::class.java)
+                val myIntent = Intent(this, PastActivityCustomer::class.java)
+                startActivity(myIntent);
+            }
+
+            R.id.nav_log_out -> {
+                val settings: SharedPreferences = this.getSharedPreferences("PreferencesName", Context.MODE_PRIVATE)
+                settings.edit().clear().commit()
+                displayToast("You logged out!!! See you Again");//leave log out message
+                val myIntent = Intent(this, loginActivity::class.java)
                 startActivity(myIntent);
             }
 
@@ -194,13 +201,13 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
         val estHrtxt = findViewById<EditText>(R.id.estHour).text.toString()
         val descTxt = findViewById<EditText>(R.id.descriptions).text.toString()
         val rateTxt = findViewById<EditText>(R.id.rate).text.toString()
-        val dateTxt = findViewById<EditText>(R.id.datepicker).text.toString()
+        val dateTxt = findViewById<Button>(R.id.datepicker).text.toString()
 
 
         //get the sharedpreference
         val settings = getSharedPreferences("UserInfo", 0)
         //get the current logged in user info
-        val userId = settings.getString("Username", "").toString()
+        val userId = settings.getString("userId", "").toString()
 
         //get the database reference
         val myRef = database.getReference().child("orders")
@@ -225,9 +232,11 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
             // new user node would be /users/$userid/
             val orderId = myRef.push().getKey().toString()
             val date = LocalDate.now().toString()
+
+            val currentTimestamp = System.currentTimeMillis()
             val newOrder = Order(
                 orderId, userId, stType, addLineText, cityTxt, spStateTxt,
-                zipTxt, estHrtxt, descTxt, date, "", "", rateTxt, "pending"
+                zipTxt, estHrtxt, descTxt, date, dateTxt, "", rateTxt, "pending", currentTimestamp
             )
 
             myRef.child(orderId).setValue(newOrder)

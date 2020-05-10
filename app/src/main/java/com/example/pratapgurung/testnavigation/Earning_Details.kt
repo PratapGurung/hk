@@ -68,18 +68,23 @@ class Earning_Details : AppCompatActivity() {
                     val estHr = data.child("serviceHour").value.toString()
                     val status = data.child("status").value.toString()
                     val rate = data.child("rate").value.toString()
+                    val timestamp = data.child("timestamp").value.toString().toLong()
 
                     val order = Order(
                         "", "", "", add, "",
                         "", "", estHr, "",
-                        "", estDeadline, "",rate, status
+                        "", estDeadline, "",rate, status, timestamp
                     )
                     orderrlistItem.add(order)
 
 
                 }
-                //val adapter = orderList(this@RequestStatus, orderrlistItem)
-                val adapter = earning_list(this@Earning_Details, orderrlistItem)
+                //variable to hold sorted list
+                var sortedOrderList  = ArrayList<Order>()
+                //sort the list and store in variable
+                orderrlistItem.sortedWith(compareBy<Order>({ it.timestamp }).reversed()).toCollection(sortedOrderList)
+                //create array adapter
+                val adapter = earning_list(this@Earning_Details, sortedOrderList)
                 listview.setAdapter(adapter);
             }
 

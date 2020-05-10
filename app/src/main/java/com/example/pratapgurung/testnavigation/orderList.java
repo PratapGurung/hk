@@ -30,15 +30,15 @@ public class orderList extends ArrayAdapter<Order> {
         View listViewItem = inflater.inflate(R.layout.order_list_layout, null, true);
 
         TextView header = (TextView) listViewItem.findViewById(R.id.header);
-        TextView customer = (TextView) listViewItem.findViewById(R.id.customerName);
+        TextView status = (TextView) listViewItem.findViewById(R.id.status);
         TextView requestDate = (TextView) listViewItem.findViewById(R.id.serviceRequestDate);
         TextView description = (TextView) listViewItem.findViewById(R.id.descriptions);
 
         Order order = list.get(position);
 
         header.setText(order.getAddress());
-        customer.setText(order.getRequestedby());
-        requestDate.setText(order.getRequestedDate());
+        status.setText(order.getStatus());
+        requestDate.setText(order.getRequestDate());
         description.setText(order.getDescription());
 
         return listViewItem;

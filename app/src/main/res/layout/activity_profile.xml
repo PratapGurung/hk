@@ -136,9 +136,8 @@
 
     <TextView
             android:id="@+id/clientEmailView"
-            android:layout_width="256dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:clickable="true"
             android:onClick="setEmail"
@@ -146,6 +145,7 @@
             android:paddingBottom="5dp"
             android:text="Client Email Here"
             android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/clientEmailAdd" />
     <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"

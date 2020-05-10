@@ -13,16 +13,17 @@ import com.google.firebase.database.*
 
 class firstName : AppCompatActivity() {
     val database = FirebaseDatabase.getInstance()
+    private var  myRef = database.getReference().child("user")
+
+    val settings = getSharedPreferences("UserInfo", 0)
+    //get the current logged in user info
+    val userId = settings.getString("Username", "").toString()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first_name)
 
-        //get the sharedpreference
-        val settings = getSharedPreferences("UserInfo", 0)
-        //get the current logged in user info
-        val userId = settings.getString("Username", "").toString()
-        val myRef = database.getReference().child("user").child("pratapgrg123")
-        myRef.addValueEventListener(object: ValueEventListener {
+
+        myRef.child(userId).addValueEventListener(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 //To change body of created functions use File | Settings | File Templates.
                 val fName = p0.child("firstName").value.toString()
@@ -41,12 +42,10 @@ class firstName : AppCompatActivity() {
         //get the widget
         val text = findViewById<EditText>(R.id.fNameInput).text.toString()
         //get the sharedpreference
-        val settings = getSharedPreferences("UserInfo", 0)
-        //get the current logged in user info
-        val userId = settings.getString("Username", "").toString()
+
        //initialize
-        val myRef = database.getReference().child("user").child("pratapgrg123")
-        myRef.child("firstName").setValue(text)
+
+        myRef.child(userId).child("firstName").setValue(text)
         val myIntent = Intent(this@firstName, profile::class.java)
         startActivity(myIntent);
     }

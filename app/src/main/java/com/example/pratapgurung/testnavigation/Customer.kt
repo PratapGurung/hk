@@ -7,5 +7,6 @@ data class Customer (
     var phone: String? = "",
     var userName:String? = "",
     var password:String? = "",
-    var userType:String? = ""
+    var userType:String? = "",
+    var ratings:String? = ""
 )

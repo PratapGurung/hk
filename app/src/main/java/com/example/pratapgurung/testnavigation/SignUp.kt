@@ -102,7 +102,7 @@ class SignUp : AppCompatActivity() {
                                     phone,
                                     userName,
                                     password,
-                                    radio.text.toString()
+                                    radio.text.toString(), "5"
                                 )
                                 custRef.child(userName).setValue(newCustomer)
                                 displayToast("User Sucessfully Created!!!")

@@ -31,7 +31,7 @@ class detail_service_request_agent : AppCompatActivity() {
     private var sType: kotlin.String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_service_request)
+        setContentView(R.layout.activity_detail_service_request_agent)
 
         var intent = getIntent()
         val orderId = intent.extras["order"].toString()
@@ -51,23 +51,23 @@ class detail_service_request_agent : AppCompatActivity() {
                 city = data.child("city").value.toString()
                 state = data.child("state").value.toString()
                 zipcode = data.child("zipCode").value.toString()
-                rDate = data.child("requestedDate").value.toString()
-                estDeadline = data.child("completeDate").value.toString()
+                rDate = data.child("requestDate").value.toString()
+                estDeadline = data.child("completeByDate").value.toString()
                 estHr = data.child("serviceHour").value.toString()
-                sType = data.child("servicetype").value.toString()
+                sType = data.child("serviceType").value.toString()
 
                 //widgets
                 val addLineView = findViewById<TextView>(R.id.address)
                 val cityView = findViewById<TextView>(R.id.city)
                 val stateView = findViewById<TextView>(R.id.state)
                 val zipCodeView = findViewById<TextView>(R.id.zicode)
-                val custNameView = findViewById<TextView>(R.id.customerName)
+                val custNameView = findViewById<TextView>(R.id.status)
                 val requestDateView = findViewById<TextView>(R.id.requestDate)
                 val estDeadlineView = findViewById<TextView>(R.id.estDeadline)
                 val estHourView = findViewById<TextView>(R.id.estHrs)
                 val sFeeView = findViewById<TextView>(R.id.serviceFee)
                 val descView = findViewById<TextView>(R.id.descriptions)
-                val serviceTypeView = findViewById<TextView>(R.id.descriptions)
+                val serviceTypeView = findViewById<TextView>(R.id.serviceType)
 
                 addLineView.text = address
                 cityView.text = city

@@ -1,7 +1,9 @@
 package com.example.pratapgurung.testnavigation
 
 import android.R.id.message
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -14,7 +16,10 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.ListView
+import android.widget.RatingBar
+import android.widget.TextView
+import android.widget.Toast
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -74,7 +79,7 @@ class MainActivity_Agent : AppCompatActivity(), NavigationView.OnNavigationItemS
                     val orderId = data.child("orderId").value.toString()
                     val add = data.child("address").value.toString()
                     val custId = data.child("requestedby").value.toString()
-                    var rDate = data.child("requestedDate").value.toString()
+                    var rDate = data.child("requestDate").value.toString()
                     val desc = data.child("description").value.toString()
                     val city = data.child("city").value.toString()
                     val state = data.child("state").value.toString()
@@ -82,14 +87,20 @@ class MainActivity_Agent : AppCompatActivity(), NavigationView.OnNavigationItemS
                     val estDeadline = data.child("completeDate").value.toString()
                     val estHr = data.child("serviceHour").value.toString()
                     val serviceId = data.child("serviceType").value.toString()
-
+                    val status = data.child("status").value.toString()
+                    val rate = data.child("rate").value.toString()
+                    val timestamp = data.child("timestamp").value.toString().toLong()
                     val order =  Order(orderId, custId, serviceId, add, city,
                         state, zipcode, estHr, desc,
-                        rDate, estDeadline, " ")
+                        rDate, estDeadline, " ", rate, status, timestamp)
                     orderrlistItem.add(order)
                 }
-                //val adapter = orderList(this@RequestStatus, orderrlistItem)
-                val adapter = orderList(this@MainActivity_Agent, orderrlistItem)
+                //variable to hold sorted list
+                var sortedOrderList  = ArrayList<Order>()
+                //sort the list and store in variable
+                orderrlistItem.sortedWith(compareBy<Order>({ it.timestamp }).reversed()).toCollection(sortedOrderList)
+                //create array adapter
+                val adapter = orderList(this@MainActivity_Agent, sortedOrderList)
                 listview.setAdapter(adapter);
 
                 listview.setOnItemClickListener { parent, view, position, id ->
@@ -151,12 +162,20 @@ class MainActivity_Agent : AppCompatActivity(), NavigationView.OnNavigationItemS
             }
 
             R.id.nav_past_request -> {
-                val myIntent = Intent(this, PastActivity::class.java)
+                val myIntent = Intent(this, PastActivityAgent::class.java)
                 startActivity(myIntent);
             }
 
             R.id.nav_earning -> {
                 val myIntent = Intent(this, earnings::class.java)
+                startActivity(myIntent);
+            }
+
+            R.id.nav_log_out -> {
+                val settings: SharedPreferences = this.getSharedPreferences("PreferencesName", Context.MODE_PRIVATE)
+                settings.edit().clear().commit()
+                displayToast("You logged out!!! See you Again");//leave log out message
+                val myIntent = Intent(this, loginActivity::class.java)
                 startActivity(myIntent);
             }
 
