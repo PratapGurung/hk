@@ -51,11 +51,16 @@ class Earning_Details : AppCompatActivity() {
     override fun onStart() {
         super.onStart();
 
+        //get the sharedpreference
+        val settings = getSharedPreferences("UserInfo", 0)
+        //get the current logged in user info
+        val userId = settings.getString("userId", "").toString()
+
         val listview = findViewById<ListView>(R.id.earningList);
         val orderrlistItem = ArrayList<Order>()
 
         val orders  = database.getReference().child("orders")
-        val query: Query = orders.orderByChild("acceptedby").equalTo("pratapgrg123")
+        val query: Query = orders.orderByChild("acceptedby").equalTo(userId)
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataList: DataSnapshot) {
                 //To change body of created functions use File | Settings | File Templates.
@@ -64,7 +69,7 @@ class Earning_Details : AppCompatActivity() {
                 for (data in dataList.children) {
 
                     val add = data.child("address").value.toString()
-                    val estDeadline = data.child("completedByDate").value.toString()
+                    val estDeadline = data.child("completeByDate").value.toString()
                     val estHr = data.child("serviceHour").value.toString()
                     val status = data.child("status").value.toString()
                     val rate = data.child("rate").value.toString()

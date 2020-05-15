@@ -43,7 +43,7 @@ class RequestStatusAgent : AppCompatActivity() {
                         val orderId = data.child("orderId").value.toString()
                         val add = data.child("address").value.toString()
                         val custId = data.child("requestedby").value.toString()
-                        var rDate = data.child("requestedDate").value.toString()
+                        var rDate = data.child("requestDate").value.toString()
                         val desc = data.child("description").value.toString()
                         val city = data.child("city").value.toString()
                         val state = data.child("state").value.toString()

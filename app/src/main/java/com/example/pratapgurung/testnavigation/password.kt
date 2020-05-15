@@ -29,7 +29,7 @@ class password : AppCompatActivity() {
         userRef.child(userId).addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 //To change body of created functions use File | Settings | File Templates.
-                val pword = p0.child("Password").value.toString()
+                val pword = p0.child("password").value.toString()
                 val pwordEditText  = findViewById<TextView>(R.id.password)
                 pwordEditText.text = pword
 

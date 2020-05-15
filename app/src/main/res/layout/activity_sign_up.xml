@@ -54,7 +54,7 @@
                 app:layout_constraintGuide_begin="16dp" />
 
         <EditText
-                android:id="@+id/username"
+                android:id="@+id/usernameView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -102,7 +102,7 @@
                 android:ems="10"
                 android:hint="@string/phone"
                 android:inputType="phone"
-                app:layout_constraintBottom_toTopOf="@+id/username"
+                app:layout_constraintBottom_toTopOf="@+id/usernameView"
                 app:layout_constraintEnd_toStartOf="@+id/guideline9"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline11" />

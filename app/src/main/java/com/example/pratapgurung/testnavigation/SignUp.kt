@@ -60,7 +60,7 @@ class SignUp : AppCompatActivity() {
         val lastName = findViewById<EditText>(R.id.lastName).text.toString()
         val email = findViewById<EditText>(R.id.email_agent).text.toString()
         val phone = findViewById<EditText>(R.id.phoneNumber).text.toString()
-        val userName = findViewById<EditText>(R.id.username).text.toString()
+        val userName = findViewById<EditText>(R.id.usernameView).text.toString()
         val password = findViewById<EditText>(R.id.password).text.toString()
         val confirmPass = findViewById<EditText>(R.id.confirmPassword).text.toString()
 

@@ -25,7 +25,7 @@ class loginActivity : AppCompatActivity() {
     }
 
     fun login(view: View) {
-        val userName = findViewById<EditText>(R.id.username).text.toString()
+        val userName = findViewById<EditText>(R.id.usernameView).text.toString()
         val password = findViewById<EditText>(R.id.password).text.toString()
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference().child("user").child(userName)

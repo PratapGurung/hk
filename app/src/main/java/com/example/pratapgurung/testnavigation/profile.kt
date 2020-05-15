@@ -43,16 +43,12 @@ class profile : AppCompatActivity() {
                 val em = p0.child("email").value.toString()
 
 
-                val firstName  = findViewById<TextView>(R.id.clientFirstNameView)
-                firstName.text = fName
-                val lastName  = findViewById<TextView>(R.id.clientLastNameView)
-                lastName.text = lName
-                val password  = findViewById<TextView>(R.id.clientPassWordView)
-                password.text = pw
-                val email  = findViewById<TextView>(R.id.clientEmailView)
-                email.text = em
-                val phoneNumber  = findViewById<TextView>(R.id.clientPhoneNumView)
-                phoneNumber.text = phNumber
+                findViewById<TextView>(R.id.username).text = userId
+                findViewById<TextView>(R.id.clientFirstNameView).text = fName
+                findViewById<TextView>(R.id.clientLastNameView).text = lName
+                findViewById<TextView>(R.id.clientPassWordView).text = pw
+                findViewById<TextView>(R.id.clientEmailView).text = em
+                findViewById<TextView>(R.id.clientPhoneNumView).text = phNumber
 
             }
 

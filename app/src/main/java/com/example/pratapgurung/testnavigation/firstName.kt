@@ -15,13 +15,13 @@ class firstName : AppCompatActivity() {
     val database = FirebaseDatabase.getInstance()
     private var  myRef = database.getReference().child("user")
 
-    val settings = getSharedPreferences("UserInfo", 0)
-    //get the current logged in user info
-    val userId = settings.getString("Username", "").toString()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first_name)
-
+        val settings = getSharedPreferences("UserInfo", 0)
+        //get the current logged in user info
+        val userId = settings.getString("userId", "").toString()
 
         myRef.child(userId).addValueEventListener(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -42,8 +42,11 @@ class firstName : AppCompatActivity() {
         //get the widget
         val text = findViewById<EditText>(R.id.fNameInput).text.toString()
         //get the sharedpreference
+        val settings = getSharedPreferences("UserInfo", 0)
+        //get the current logged in user info
+        val userId = settings.getString("userId", "").toString()
 
-       //initialize
+        //initialize
 
         myRef.child(userId).child("firstName").setValue(text)
         val myIntent = Intent(this@firstName, profile::class.java)

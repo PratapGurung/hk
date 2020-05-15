@@ -9,6 +9,32 @@
         tools:context=".profile">
 
 
+    <TextView
+            android:id="@+id/username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:clickable="true"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="Client username Here"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/clientPassWord"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/clientPassWord"
+            app:layout_constraintTop_toBottomOf="@+id/usernameView" />
+
+    <TextView
+            android:id="@+id/usernameView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Username:"
+            android:textSize="15dp"
+            app:layout_constraintEnd_toEndOf="@+id/clientLastNameView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/username"
+            app:layout_constraintTop_toBottomOf="@+id/clientLastNameView" />
 
     <ImageView
             android:layout_width="128dp"
@@ -98,15 +124,17 @@
             app:layout_constraintTop_toBottomOf="@+id/clientPhoneNum" />
 
     <TextView
-            android:text="Password"
+            android:id="@+id/clientPassWord"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/clientPassWord"
+            android:layout_marginTop="24dp"
+            android:text="Password"
             android:textSize="15dp"
-            app:layout_constraintStart_toStartOf="@+id/clientPassWordView"
             app:layout_constraintEnd_toEndOf="@+id/clientPassWordView"
-            app:layout_constraintTop_toBottomOf="@+id/clientLastNameView"
-            app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="12dp"/>
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/clientPassWordView"
+            app:layout_constraintTop_toBottomOf="@+id/username" />
+
     <TextView
             android:text="*********"
             android:layout_width="0dp"

@@ -16,14 +16,15 @@ class secondName : AppCompatActivity() {
 
     val database = FirebaseDatabase.getInstance()
     var  myRef = database.getReference().child("user")
-    //get the sharedpreference
-    val settings = getSharedPreferences("UserInfo", 0)
-    //get the current logged in user info
-    val userId = settings.getString("userId", "").toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second_name)
+
+        //get the sharedpreference
+        val settings = getSharedPreferences("UserInfo", 0)
+        //get the current logged in user info
+        val userId = settings.getString("userId", "").toString()
 
         myRef.child(userId).addValueEventListener(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -43,6 +44,10 @@ class secondName : AppCompatActivity() {
 
     fun retClientSecondName(view : View){
         val text = findViewById<EditText>(R.id.lastName).text.toString()
+        val settings = getSharedPreferences("UserInfo", 0)
+        //get the current logged in user info
+        val userId = settings.getString("userId", "").toString()
+
         //initialize db
         myRef.child(userId).child("lastName").setValue(text)
         val myIntent = Intent(this, profile::class.java)

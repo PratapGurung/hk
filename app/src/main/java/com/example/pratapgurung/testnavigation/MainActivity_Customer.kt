@@ -57,10 +57,10 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
         //get the navigationView
         val navigationView : NavigationView  = findViewById(R.id.nav_view)
         val headerView : View = navigationView.getHeaderView(0)
-        val navUsername : TextView = headerView.findViewById(R.id.username) //get the userName view
+        val navUsername : TextView = headerView.findViewById(R.id.usernameView) //get the userName view
         val ratings : RatingBar = headerView.findViewById(R.id.ratingBar) //get the ratings bar
         navUsername.text = settings.getString("Username", "").toString() //set the user to current logged in username
-        ratings.rating = settings.getString("ratings", "").toString().toFloat()
+        ratings.rating = settings.getString("ratings", "5").toString().toFloat()
 
 
     }
