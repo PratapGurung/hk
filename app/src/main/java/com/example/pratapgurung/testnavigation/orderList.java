@@ -10,7 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.List;
+/*
+    this is arrayadapter of order for oderlist
+    this arrayadapter can be use to display orders in listview
 
+ */
 public class orderList extends ArrayAdapter<Order> {
 
     private Activity context;
@@ -23,6 +27,9 @@ public class orderList extends ArrayAdapter<Order> {
         this.list = list;
     }
 
+    /*
+        overridden function that will display items in listView
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

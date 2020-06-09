@@ -18,11 +18,15 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlin.math.round
 
+/*
+    this activity display detail view of order
+    for user
+ */
 
 class detail_service_request : AppCompatActivity() {
     val database = FirebaseDatabase.getInstance()
 
-    private var custId: String? = null
+    //variables
     private var state: kotlin.String? = null
     private var zipcode: kotlin.String? = null
     private var city: String? = null
@@ -33,14 +37,15 @@ class detail_service_request : AppCompatActivity() {
     private var estDeadline: kotlin.String? = null
     private var estHr: kotlin.String? = null
     private var sType: kotlin.String? = null
-
     private var orderId = " "
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_service_request)
 
+        //get the intent from activity
         var intent = getIntent()
+        //get the order id
         orderId = intent.extras["order"].toString()
 
         //get the sharedpreference
@@ -69,7 +74,7 @@ class detail_service_request : AppCompatActivity() {
                 val requesteBy = data.child("requestedby").value.toString()
                 val status = data.child("status").value.toString()
 
-                //displayToast(agentName.toString())
+
 
                 //widgets
                 val statusView = findViewById<TextView>(R.id.status)
@@ -84,6 +89,7 @@ class detail_service_request : AppCompatActivity() {
                 val descView = findViewById<TextView>(R.id.description)
                 val serviceTypeView = findViewById<TextView>(R.id.serviceType)
 
+                //set the text to view
                 statusView.text = status
                 addLineView.text = address
                 cityView.text = city
@@ -96,7 +102,9 @@ class detail_service_request : AppCompatActivity() {
                 descView.text = desc
                 serviceTypeView.text = sType
 
-                //set the status
+                //set the status and open corresponding fragements
+                //check the status
+                //also check the user type of currently logged in user
                 if (status.equals("pending")) {
                     val fragment: emptyView = emptyView()
                     supportFragmentManager.beginTransaction().apply {
@@ -151,10 +159,14 @@ class detail_service_request : AppCompatActivity() {
 
     }
 
-    fun userInfo(agentName: String) {
+    /*
+        receive string value of currently logged in user
+        reads user info of passed user and displays it into the view
+     */
+    fun userInfo(userName: String) {
 
         //now change the reference to user to get the agent information
-        var userRef = database.getReference().child("user").child(agentName.toString())
+        var userRef = database.getReference().child("user").child(userName.toString())
         userRef.addListenerForSingleValueEvent(object : ValueEventListener {
 
             override fun onDataChange(data: DataSnapshot) {
@@ -181,6 +193,10 @@ class detail_service_request : AppCompatActivity() {
         });
     }
 
+    /*
+        called when give ratign button is pressed
+        allows user to rate each other
+     */
     fun rateService(view: View){
 
         //get the sharedpreference
@@ -212,6 +228,12 @@ class detail_service_request : AppCompatActivity() {
         });
 
     }
+
+    /*
+        helper function for rate service
+        receive user id of user which to be rated
+        reads the previous rating of user and set the new rating
+     */
     fun rate(userId: String){
         //get the agent's ratings value
         var ratings = 0.0

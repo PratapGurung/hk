@@ -16,7 +16,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-
+/*
+    this main activity of our app
+    user will login to app by providing their credentials
+    new user can also create new account
+ */
 class loginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +28,8 @@ class loginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
     }
 
+    //check user credentials and compare it to db
+    //if account exist then start home activity base on user type
     fun login(view: View) {
         val userName = findViewById<EditText>(R.id.usernameView).text.toString()
         val password = findViewById<EditText>(R.id.password).text.toString()
@@ -37,8 +43,9 @@ class loginActivity : AppCompatActivity() {
                 val userType = dataSnapshot.child("userType").value.toString()
                 if(dataSnapshot.exists()) {
                     //userexist
+                    val encrypPassword =  hashEncryption().encryptThisString(password)
                     val dbpassword = dataSnapshot.child("password").value.toString()
-                    if(password.equals(dbpassword)){
+                    if(encrypPassword.equals(dbpassword)){
                         //save user data in sharedPreferences to save user information
                         val settings = getSharedPreferences("UserInfo", 0)
                         val editor = settings.edit()
@@ -72,6 +79,7 @@ class loginActivity : AppCompatActivity() {
 
     }
 
+    //start sign up activity
     fun signUp(view: View) {
 
         val myIntent = Intent(this, SignUp::class.java)
@@ -79,6 +87,10 @@ class loginActivity : AppCompatActivity() {
         startActivity(myIntent);
     }
 
+    /*
+        helper function for login
+        check usertype and start home activity of correspondig user
+     */
     fun loginStatus(b: Boolean, userType:String) {
         if(b){
             if(userType.equals("Customer")){

@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.ListView
 import com.google.firebase.database.*
 
-
+/*
+    this activity displays all the  currently pending and accepted requests for customers
+    this acitivity will start once user selects request status in navigation
+ */
 class RequestStatusCustomer : AppCompatActivity() {
     val database = FirebaseDatabase.getInstance()
 

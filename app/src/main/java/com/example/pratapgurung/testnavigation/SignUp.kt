@@ -18,14 +18,17 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-
+/*
+    this activity allows user to create new account
+ */
 class SignUp : AppCompatActivity() {
+    //create instance of db
     val database = FirebaseDatabase.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
-
+        //get usertype radio btn
         val userTypeRadioBtn = findViewById<RadioGroup>(R.id.userType)
 
         //inflate address, city, zipcode for agents only
@@ -76,17 +79,23 @@ class SignUp : AppCompatActivity() {
             )
         ) {
 
+            //get the selected radio btn
             var radioBtnid: Int = userTypeRadioBtn.checkedRadioButtonId
+
+            //if either one of user type is selected
             if (radioBtnid != -1) { // If any radio button checked from radio group
+
                 // Get the instance of radio button using id
                 val radio: RadioButton = findViewById(radioBtnid)
+                //create db reference
                 val userRef = database.getReference().child("user").child(userName)
-                // Read from the database
+
+                // Read from the database and check if user already exist or not
                 userRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         // This method is called once with the initial value and again
                         // whenever data at this location is updated.
-                        //if userExist don't submit to db
+                        //if userExist don't submit to db and send and error
                         if(dataSnapshot.exists()){
                             displayToast("Username already taken!!!")
                         }
@@ -94,14 +103,16 @@ class SignUp : AppCompatActivity() {
                             //if user type is customer, add the user in customer table
                             if (radio.text.equals("Customer")) {
                                 val custRef = database.getReference().child("user")
-                                custRef.push().setValue(userName)
+
+                                val enc =  hashEncryption()
+                                val encrypPassword =  hashEncryption().encryptThisString(password)
                                 val newCustomer = Customer(
                                     firstName,
                                     lastName,
                                     email,
                                     phone,
                                     userName,
-                                    password,
+                                    encrypPassword,
                                     radio.text.toString(), "5"
                                 )
                                 custRef.child(userName).setValue(newCustomer)
@@ -113,8 +124,6 @@ class SignUp : AppCompatActivity() {
                             //else add the user in agents table
                             else {
                                 val agentRef = database.getReference().child("user")
-                                agentRef.push().setValue(userName)
-
                                 //additional widgets for agents
                                 val address = findViewById<EditText>(R.id.address).text.toString()
                                 val city = findViewById<EditText>(R.id.city).text.toString()
@@ -125,13 +134,15 @@ class SignUp : AppCompatActivity() {
                                     displayToast("Please Fill up all the text fields !!")
                                 }
                                 else{
+                                    val enc =  hashEncryption()
+                                    val encrypPassword =  hashEncryption().encryptThisString(password)
                                     val newAgent = Agent(
                                         firstName,
                                         lastName,
                                         email,
                                         phone,address,city,states, zipcode,
                                         userName,
-                                        password,
+                                        encrypPassword,
                                         radio.text.toString()
                                     )
                                     agentRef.child(userName).setValue(newAgent)

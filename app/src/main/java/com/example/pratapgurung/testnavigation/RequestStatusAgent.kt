@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ListView
 import com.google.firebase.database.*
-
+/*
+    this activity displays all the  currently accepted requests by service agent
+    this acitivity will start once user selects request status in navigation
+ */
 class RequestStatusAgent : AppCompatActivity() {
 
     val database = FirebaseDatabase.getInstance()
@@ -20,7 +23,9 @@ class RequestStatusAgent : AppCompatActivity() {
     override fun onStart() {
         super.onStart();
 
+        //get the list view
         val listview = findViewById<ListView>(R.id.requestList);
+        //create instance of arraylist
         val orderrlistItem = ArrayList<Order>()
 
         //get the sharedpreference

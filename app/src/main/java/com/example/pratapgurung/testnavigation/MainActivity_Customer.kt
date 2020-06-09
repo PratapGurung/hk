@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
@@ -20,25 +21,40 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FileDownloadTask
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import java.io.File
 import java.time.LocalDate
 import java.util.*
 
+/*
+    this is main activity or home page of customer
 
+ */
 class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, DatePickerDialog.OnDateSetListener{
-    // Write a message to the database
+
+    // create database instance
     val database = FirebaseDatabase.getInstance()
     var datepicker: Button? = null //variable for calendar
 
+    /*
+        overridden on create function and is called every time activity is created
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         FirebaseApp.initializeApp(this);
 
+        /*
+            toggle bar for navigation
+         */
         val toggle = ActionBarDrawerToggle(
             this,
             drawer_layout,
@@ -52,18 +68,14 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
 
         spinnerSetup()
 
-        //get the sharedpreference
-        val settings = getSharedPreferences("UserInfo", 0)
-        //get the navigationView
-        val navigationView : NavigationView  = findViewById(R.id.nav_view)
-        val headerView : View = navigationView.getHeaderView(0)
-        val navUsername : TextView = headerView.findViewById(R.id.usernameView) //get the userName view
-        val ratings : RatingBar = headerView.findViewById(R.id.ratingBar) //get the ratings bar
-        navUsername.text = settings.getString("Username", "").toString() //set the user to current logged in username
-        ratings.rating = settings.getString("ratings", "5").toString().toFloat()
+        //get the username and ratings from shared reference and set it on navigation bar
+        setUserNameNrating()
 
-
+        //show the profile image of user
+        //get the profile image from firebase storage
+        retrievePicture()
     }
+
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -89,6 +101,49 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
         }
     }
 
+    /*
+        retreives profile picture and put in navigation
+     */
+    fun retrievePicture(){
+        //get the profile image from firebase storage
+        val storage = FirebaseStorage.getInstance()
+        val storageReference = storage.reference
+        val riversRef = storageReference.child("images/testImage" )
+        val localFile: File = File.createTempFile("images", "jpg")
+        riversRef.getFile(localFile)
+            .addOnSuccessListener(OnSuccessListener<FileDownloadTask.TaskSnapshot?> {
+                // Successfully downloaded data to local file
+                // ...
+                val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+                findViewById<ImageView>(R.id.imageView).setImageBitmap(bitmap)
+            }).addOnFailureListener(OnFailureListener {
+                // Handle failed download
+                // ...
+            })
+    }
+
+    /*
+        gets the username and ratings from shared reference (local memory)
+     */
+    fun setUserNameNrating(){
+        //get the sharedpreference
+        val settings = getSharedPreferences("UserInfo", 0)
+        //get the navigationView
+        val navigationView : NavigationView  = findViewById(R.id.nav_view)
+        val headerView : View = navigationView.getHeaderView(0)
+        val navUsername : TextView = headerView.findViewById(R.id.usernameView) //get the userName view
+        val ratings : RatingBar = headerView.findViewById(R.id.ratingBar) //get the ratings bar
+
+        //get the current logged in user info from shared preference and set it to view
+        navUsername.text = settings.getString("Username", "").toString() //set the user to current logged in username
+        ratings.rating = settings.getString("ratings", "5").toString().toFloat()
+    }
+
+
+    /*
+       this function controls navigation items and is
+       called when item from navation is selected or clicked
+    */
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
@@ -117,13 +172,15 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
         return true
     }
 
-    //
+    //called when user profile image from navigation is pressed
+    //    //starts new activity called proileCustomer
     fun openProfile(view: View) {
-        val myIntent = Intent(this, profile::class.java)
+        val myIntent = Intent(this, profileCustomer::class.java)
         startActivity(myIntent);
 
     }
 
+    //help function to create spinner
     fun spinnerSetup(){
 
         var mySpinner = findViewById<Spinner>(R.id.mainSpinner1);
@@ -151,9 +208,10 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
         // Set Adapter to Spinner
         spinner2.setAdapter(statesAdapter);
     }
+
     /*
      * reset all the data
-     *
+     * in view
      */
     fun resetData(view: View) {
         //spinner
@@ -185,6 +243,11 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
 
     }
 
+    /*
+     get all the information entered by user and create new instance
+      of order and submit that order with order id to the database
+
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     fun requestSubmit(view: View) {
         //widgets
@@ -248,6 +311,7 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
 
     }
 
+    //helper function to display toast message
     fun displayToast(msg: String) {
         val toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT)
        // val toast = Toast.makeText(context, message, duration)
@@ -262,11 +326,13 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
         toast.show()
     }
 
+    //helper function to create date picker
     fun getDatePicker(view: View){
         datepicker = findViewById<Button>(R.id.datepicker)
         datepicker!!.setOnClickListener(View.OnClickListener { showDatePickerDialog() })
     }
 
+    //function that will display date picker dialog box
     fun showDatePickerDialog() {
         val datePickerDialog = DatePickerDialog(
             this,
@@ -278,6 +344,7 @@ class MainActivity_Customer : AppCompatActivity(), NavigationView.OnNavigationIt
         datePickerDialog.show()
     }
 
+    //on date set change the text of datepicker view
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         val date = "$month/$dayOfMonth/$year"
         datepicker!!.setText(date)

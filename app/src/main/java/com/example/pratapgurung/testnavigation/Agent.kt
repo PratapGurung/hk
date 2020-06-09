@@ -1,5 +1,8 @@
 package com.example.pratapgurung.testnavigation
-
+/*
+    this is class description of agent and needs all the parameter to create
+    an object of agent
+ */
 data class Agent(
     var firstName: String? = "",
     var lastName: String? = "",

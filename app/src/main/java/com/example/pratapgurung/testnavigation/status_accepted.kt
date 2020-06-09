@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-
+/*
+    this is fragement for status accepted
+    and this fragement will be inflate for only accpeted orders
+ */
 class status_accepted : Fragment() {
     // TODO: Rename and change types of parameters
 

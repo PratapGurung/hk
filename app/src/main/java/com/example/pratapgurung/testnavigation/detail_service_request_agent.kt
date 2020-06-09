@@ -14,10 +14,15 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+/*
+    this activity display detail view of order
+    for agent and allows the service provider to accept the request
+ */
 
 class detail_service_request_agent : AppCompatActivity() {
     val database = FirebaseDatabase.getInstance()
 
+    //variablse
     private var custId: String? = null
     private var state: kotlin.String? = null
     private var zipcode: kotlin.String? = null
@@ -33,9 +38,11 @@ class detail_service_request_agent : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_service_request_agent)
 
+        //get intent of activity
         var intent = getIntent()
+        //get the order id
         val orderId = intent.extras["order"].toString()
-        //Toast.makeText(getApplicationContext(), "Selected item at position: " + orderId, Toast.LENGTH_LONG).show();
+
         //create database reference
         val myRef = database.getReference().child("orders").child(orderId)
 
@@ -69,6 +76,7 @@ class detail_service_request_agent : AppCompatActivity() {
                 val descView = findViewById<TextView>(R.id.descriptions)
                 val serviceTypeView = findViewById<TextView>(R.id.serviceType)
 
+                //set the view text to those of read data
                 addLineView.text = address
                 cityView.text = city
                 stateView.text = state
@@ -92,6 +100,9 @@ class detail_service_request_agent : AppCompatActivity() {
         });
 
     }
+    /*
+        called when accpet order btn is pressed
+     */
     fun acceptRequestOrder(view:View){
         var intent = getIntent()
         val orderId = intent.extras["order"].toString()
@@ -99,19 +110,25 @@ class detail_service_request_agent : AppCompatActivity() {
         //get the sharedpreference
         val settings = getSharedPreferences("UserInfo", 0)
         val userId =settings.getString("userId", "").toString()
+
         //create database reference
         val orderRef = database.getReference().child("orders").child(orderId)
+
+        //set the status and accepty by field of order
         orderRef.child("status").setValue("accepted")
         orderRef.child("acceptedby").setValue(userId)
 
+        //display toast message and start home activity
         displayToast("Thank you for accepting the request !!!")
         val myIntent = Intent(this, MainActivity_Agent::class.java)
         startActivity(myIntent);
     }
 
+    /*
+        helper function to display message
+     */
     fun displayToast(msg: String) {
         val toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT)
-        // val toast = Toast.makeText(context, message, duration)
         val view = toast.view
         //Gets the actual oval background of the Toast then sets the colour filter
         view.background.setColorFilter(Color.parseColor("#19bd60"), PorterDuff.Mode.SRC_IN)

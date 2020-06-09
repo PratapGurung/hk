@@ -4,14 +4,15 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-
+/*
+    this activity allows to change their email and save it to db also
+ */
 class email : AppCompatActivity() {
 
     val database = FirebaseDatabase.getInstance()
@@ -41,6 +42,7 @@ class email : AppCompatActivity() {
         })
     }
 
+    //save new email to db
     fun retEmail(view : View){
         //get the sharedpreference
         val settings = getSharedPreferences("UserInfo", 0)
@@ -49,7 +51,7 @@ class email : AppCompatActivity() {
         val text = findViewById<EditText>(R.id.emailAdd).text.toString()
         //initialize db
         myRef.child(userId).child("email").setValue(text)
-        val myIntent = Intent(this, profile::class.java)
+        val myIntent = Intent(this, profileCustomer::class.java)
         startActivity(myIntent);
     }
 }

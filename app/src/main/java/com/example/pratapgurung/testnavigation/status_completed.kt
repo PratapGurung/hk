@@ -12,6 +12,10 @@ import android.view.ViewGroup
  * Use the [status_completed.newInstance] factory method to
  * create an instance of this fragment.
  */
+/*
+    this is fragement for status completed
+    and this fragement will be inflate for completed orders
+ */
 class status_completed : Fragment() {
     // TODO: Rename and change types of parameters
 

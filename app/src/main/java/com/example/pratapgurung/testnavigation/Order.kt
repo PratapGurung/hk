@@ -2,7 +2,10 @@ package com.example.pratapgurung.testnavigation
 
 import android.accounts.AuthenticatorDescription
 import java.sql.Timestamp
-
+/*
+    this is class representation of order
+    to create an instance of order, we need to pass all the needed parameters
+ */
 data class Order (
     var orderId:String? = "",
     var requestedby:String? = "",

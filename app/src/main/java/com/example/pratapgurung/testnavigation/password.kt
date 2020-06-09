@@ -4,14 +4,15 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-
+/*
+    this activity allows to change their password and save it to db also
+ */
 class password : AppCompatActivity() {
 
     val database = FirebaseDatabase.getInstance()
@@ -21,27 +22,10 @@ class password : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_password)
 
-        //get the sharedpreference
-        val settings = getSharedPreferences("UserInfo", 0)
-        //get the current logged in user info
-        val userId = settings.getString("userId", "").toString()
-
-        userRef.child(userId).addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                //To change body of created functions use File | Settings | File Templates.
-                val pword = p0.child("password").value.toString()
-                val pwordEditText  = findViewById<TextView>(R.id.password)
-                pwordEditText.text = pword
-
-            }
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented")
-                //To change body of created functions use File | Settings | File Templates.
-
-            }
-        })
     }
 
+
+    //save new password to db
     fun retClientPassword(view : View){
         //get the sharedpreference
         val settings = getSharedPreferences("UserInfo", 0)
@@ -50,7 +34,7 @@ class password : AppCompatActivity() {
         val text = findViewById<EditText>(R.id.password).text.toString()
         //initialize db
         userRef.child(userId).child("password").setValue(text)
-        val myIntent = Intent(this, profile::class.java)
+        val myIntent = Intent(this, profileCustomer::class.java)
         startActivity(myIntent);
     }
 }

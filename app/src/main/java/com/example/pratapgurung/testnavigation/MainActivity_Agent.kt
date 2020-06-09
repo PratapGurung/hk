@@ -26,17 +26,27 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import java.util.*
 
-
+/*
+    this is main activity or home page of service provider
+    this activity will display recent posting for service request and  controls the navigation
+ */
 class MainActivity_Agent : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
-    // Write a message to the database
+
+    // create database instance
     val database = FirebaseDatabase.getInstance()
 
+    /*
+        overridden on create function and is called every time activity is created
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main__agent)
         setSupportActionBar(toolbar)
         FirebaseApp.initializeApp(this);
 
+        /*
+            toggle bar for navigation
+         */
         val toggle = ActionBarDrawerToggle(
             this,
             drawer_layout,
@@ -56,24 +66,32 @@ class MainActivity_Agent : AppCompatActivity(), NavigationView.OnNavigationItemS
         val headerView : View = navigationView.getHeaderView(0)
         val navUsername : TextView = headerView.findViewById(R.id.usernameView) //get the userName view
         val ratings : RatingBar = headerView.findViewById(R.id.ratingBar) //get the ratings bar
-        navUsername.text = settings.getString("Username", "").toString() //set the user to current logged in username
+
+        //get the current logged in user info from shared preference and set it to view
+        navUsername.text = settings.getString("Username", "").toString()
         ratings.rating = settings.getString("ratings", "").toString().toFloat()
 
     }
 
+    /*
+           overridden on create function and is called every time activity is started
+           and controls the home view of agent
+       */
     override fun onStart() {
         super.onStart();
 
+        //get the list view
         val listview = findViewById<ListView>(R.id.earningList);
+
+        //initialiaze the array list
         val orderrlistItem = ArrayList<Order>()
 
-        // Most recent posts
+        // read the Most recent posts from database
         val orders  = database.getReference().child("orders")
         val query: Query = orders.orderByChild("status").equalTo("pending")
         query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataList: DataSnapshot) {
                 //To change body of created functions use File | Settings | File Templates.
-
                 orderrlistItem.clear()
                 for (data in dataList.children) {
                     val orderId = data.child("orderId").value.toString()
@@ -103,6 +121,7 @@ class MainActivity_Agent : AppCompatActivity(), NavigationView.OnNavigationItemS
                 val adapter = orderList(this@MainActivity_Agent, sortedOrderList)
                 listview.setAdapter(adapter);
 
+                //set  onclick listener to each item of list view
                 listview.setOnItemClickListener { parent, view, position, id ->
                     val element = adapter.getItem(position)// The item that was clicked
                     //Toast.makeText(getApplicationContext(), "Selected item at position: " + element.orderId, Toast.LENGTH_LONG).show();
@@ -112,7 +131,6 @@ class MainActivity_Agent : AppCompatActivity(), NavigationView.OnNavigationItemS
                 }
             }
 
-
             override fun onCancelled(p0: DatabaseError) {
                 TODO("not implemented")
                 //To change body of created functions use File | Settings | File Templates.
@@ -120,12 +138,6 @@ class MainActivity_Agent : AppCompatActivity(), NavigationView.OnNavigationItemS
             }
         });
 
-    }
-
-    fun orderDetail(view: View){
-        val myIntent = Intent(this, detail_service_request_agent::class.java)
-        //myIntent.putExtra("message", "Service Request Sucessfully Submitted!!!")
-        startActivity(myIntent);
     }
 
     override fun onBackPressed() {
@@ -152,6 +164,10 @@ class MainActivity_Agent : AppCompatActivity(), NavigationView.OnNavigationItemS
         }
     }
 
+    /*
+        this function controls navigation items and is
+        called when item from navation is selected or clicked
+     */
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
@@ -186,13 +202,23 @@ class MainActivity_Agent : AppCompatActivity(), NavigationView.OnNavigationItemS
         return true
     }
 
-    //
+    /*
+        called when list item is clicked and starts new activity called detail-service-request-agent
+   */
+    fun orderDetail(view: View){
+        val myIntent = Intent(this, detail_service_request_agent::class.java)
+        startActivity(myIntent);
+    }
+
+    //called when user profile image from navigation is pressed
+    //starts new activity called proileAgent
     fun openProfile(view: View) {
-        val myIntent = Intent(this, profile::class.java)
+        val myIntent = Intent(this, profileAgent::class.java)
         startActivity(myIntent);
 
     }
 
+    //helper function to display toast message
     fun displayToast(msg: String) {
         val toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT)
         // val toast = Toast.makeText(context, message, duration)

@@ -5,7 +5,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+/*
+    this fragement that will inflate the agent part of view for sign up
+ */
 class agentSignUp : Fragment() {
 
     override fun onCreateView(

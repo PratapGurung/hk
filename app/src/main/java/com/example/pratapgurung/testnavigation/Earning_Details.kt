@@ -7,7 +7,10 @@ import android.widget.ListView
 import android.widget.TextView
 import com.google.firebase.database.*
 
-
+/*
+    this activity display detailk view of earnings
+    by constraints
+ */
 class Earning_Details : AppCompatActivity() {
     val database = FirebaseDatabase.getInstance()
 
@@ -15,7 +18,9 @@ class Earning_Details : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_earning__details)
 
+        //get the content from actiivty
         var intent = getIntent()
+        //get the earnings constraint type
         val earnings_constraint = intent.extras["earning_contraint"].toString()
         findViewById<TextView>(R.id.header).text = earnings_constraint
 
@@ -28,11 +33,15 @@ class Earning_Details : AppCompatActivity() {
         val orders  = database.getReference().child("orders")
         val query: Query = orders.orderByChild("acceptedby").equalTo(userId)
 
+        //run query on database to read orders
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) { // dataSnapshot is the "issue" node with all children with id 0
                     var earnings = 0.0
-                    for (issue in dataSnapshot.children) { // do something with the individual "issues"
+
+                    //calculate earning for user
+                    for (issue in dataSnapshot.children) {
+                        // do something with the individual "issues"
                             var rate = issue.child("rate").value.toString().toDouble()
                             var hrs = issue.child("serviceHour").value.toString().toDouble()
 
@@ -56,11 +65,16 @@ class Earning_Details : AppCompatActivity() {
         //get the current logged in user info
         val userId = settings.getString("userId", "").toString()
 
+        //get the list view of earnings
         val listview = findViewById<ListView>(R.id.earningList);
+        //creat instance of arraylist to hold orders
         val orderrlistItem = ArrayList<Order>()
 
+        //create db reference
         val orders  = database.getReference().child("orders")
         val query: Query = orders.orderByChild("acceptedby").equalTo(userId)
+
+        //run query on db refernce on each event listener return true
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataList: DataSnapshot) {
                 //To change body of created functions use File | Settings | File Templates.
@@ -75,6 +89,7 @@ class Earning_Details : AppCompatActivity() {
                     val rate = data.child("rate").value.toString()
                     val timestamp = data.child("timestamp").value.toString().toLong()
 
+                    //create a order instance
                     val order = Order(
                         "", "", "", add, "",
                         "", "", estHr, "",

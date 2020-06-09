@@ -6,11 +6,17 @@ import android.os.Bundle
 import android.widget.ListView
 import com.google.firebase.database.*
 
+/*
+    this class creates past activity for agent
+    this will display all the past request completed by the agent
+ */
 class PastActivityAgent : AppCompatActivity() {
 
+    //create instance of database
     val database = FirebaseDatabase.getInstance()
 
-    //val orderlist = listOf<Order>();
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_past_agent)
@@ -20,7 +26,10 @@ class PastActivityAgent : AppCompatActivity() {
     override fun onStart() {
         super.onStart();
 
+        //get the listView from view
         val listview = findViewById<ListView>(R.id.requestList);
+
+        //create arraylist object
         val orderrlistItem = ArrayList<Order>()
 
         //get the sharedpreference
@@ -28,11 +37,13 @@ class PastActivityAgent : AppCompatActivity() {
         val userId = settings.getString("userId", "").toString()
 
 
-        // Most recent posts
+        // get the db reference for order
         val orders  = database.getReference().child("orders")
+
+        //create query to run on db
         var query: Query  = orders.orderByChild("acceptedby").equalTo(userId)
 
-        // Most recent posts
+        // read the completed request
         query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataList: DataSnapshot) {
                 //To change body of created functions use File | Settings | File Templates.
@@ -56,11 +67,15 @@ class PastActivityAgent : AppCompatActivity() {
 
                         val acceptedBy = data.child("acceptedby").value.toString()
                         val rate = data.child("rate").value.toString()
+
+                        //create new object of order
                         val order = Order(
                             orderId, custId, serviceId, add, city,
                             state, zipcode, estHr, desc,
                             rDate, estDeadline, acceptedBy,rate, status, timestamp
                         )
+
+                        //add the above created object to arraylist
                         orderrlistItem.add(order)
                     }
 

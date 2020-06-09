@@ -4,14 +4,15 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-//MainActivity_Agent
+/*
+    this activity allows to change their phonenumber and save it to db also
+ */
 class phoneNumber : AppCompatActivity() {
 
     val database = FirebaseDatabase.getInstance()
@@ -41,6 +42,8 @@ class phoneNumber : AppCompatActivity() {
         })
     }
 
+
+    //save new phone number to db
     fun retPhoneNumber(view : View){
         val text = findViewById<EditText>(R.id.phoneNumber).text.toString()
         //get the sharedpreference
@@ -50,7 +53,7 @@ class phoneNumber : AppCompatActivity() {
 
         //initialize db
         myRef.child(userId).child("phoneNumber").setValue(text)
-        val myIntent = Intent(this@phoneNumber, profile::class.java)
+        val myIntent = Intent(this@phoneNumber, profileCustomer::class.java)
         startActivity(myIntent);
     }
 }

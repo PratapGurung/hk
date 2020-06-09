@@ -11,6 +11,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
+/*
+    class description: this class is array adapter class of order for earning list
+    it's constructor receives activity context and List object .
+
+ */
 public class earning_list extends ArrayAdapter<Order> {
     private Activity context;
     private List<Order> list;
@@ -21,7 +26,10 @@ public class earning_list extends ArrayAdapter<Order> {
         this.context = context;
         this.list = list;
     }
-
+    /*
+        overridden fun getView gets the list view and  display item on the list view
+        it receives positional index,view and view group parent and inflate the list view
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -34,14 +42,11 @@ public class earning_list extends ArrayAdapter<Order> {
 
 
         Order order = list.get(position);
-
         dateView.setText(order.getCompleteByDate());
         addressView.setText(order.getAddress());
         //first calculate income
         Double income = Double.parseDouble(order.getRate().toString()) * Double.parseDouble( order.getServiceHour().toString());
         incomeView.setText("$ " + income.toString());
-
-
         return listViewItem;
     }
 }

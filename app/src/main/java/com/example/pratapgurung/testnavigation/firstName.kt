@@ -3,14 +3,13 @@ package com.example.pratapgurung.testnavigation
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
-
+/*
+    this activity allows to change their firstname and save it to database also
+ */
 class firstName : AppCompatActivity() {
     val database = FirebaseDatabase.getInstance()
     private var  myRef = database.getReference().child("user")
@@ -38,6 +37,7 @@ class firstName : AppCompatActivity() {
         })
     }
 
+    //save new firstname to db
     fun retClientFirstName(view : View){
         //get the widget
         val text = findViewById<EditText>(R.id.fNameInput).text.toString()
@@ -49,7 +49,7 @@ class firstName : AppCompatActivity() {
         //initialize
 
         myRef.child(userId).child("firstName").setValue(text)
-        val myIntent = Intent(this@firstName, profile::class.java)
+        val myIntent = Intent(this@firstName, profileCustomer::class.java)
         startActivity(myIntent);
     }
 
